@@ -88,16 +88,24 @@ router.post('/forgot_password', async (req, res) => {
 			}
 		});
 
-		mailer.sendMail({
+		console.log(token, now);
+
+		var mailOptions = {
 			to: email,
 			from: 'carlos.ian007@gmail.com',
-			template: 'auth/forgot_password',
+		    template: 'auth/forgot_password',
 			context: { token },
-		}, (err) => {
-			if (err)
-				return res.status(400).send({ error: 'Cannot send forgot password email' }); 
+		};
 
+		// send mail with defined transport object
+		mailer.sendMail(mailOptions, function(error, info){
+		    if(error){
+		        return console.log(error);
+		        return res.status(400).send({ error: 'Cannot send forgot password email' });
+		    }
+			
 			return res.send();
+		   
 		});
 
 	} catch (err) {
