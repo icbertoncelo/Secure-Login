@@ -9,4 +9,4 @@ app.use(bodyParser.urlencoded({ extended: false })); //url parameters
 // refering authController
 require('./app/controllers/index')(app);
 
-app.listen(3000);
+app.listen(7000);

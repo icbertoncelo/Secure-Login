@@ -12,6 +12,14 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import Link from 'next/link'; 
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import Grid from '@material-ui/core/Grid';
+
 
 const styles = theme => ({
   layout: {
@@ -45,59 +53,72 @@ const styles = theme => ({
   },
 });
 
-function SignIn(props) {
-  const { classes } = props;
+class SignIn extends React.Component {
 
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
+  state = {  };
+  
+  render () {
 
-          <Avatar className={classes.avatar}>
-            <LockIcon />
-          </Avatar>
+    const { classes } = this.props;
 
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
 
-          <form className={classes.form}>
+            <Avatar className={classes.avatar}>
+              <LockIcon />
+            </Avatar>
 
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
-            </FormControl>
+            <Typography component="h1" variant="h5">
+              Login
+            </Typography>
 
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Senha</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </FormControl>
+            <form className={classes.form}>
 
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Email</InputLabel>
+                <Input id="email" name="email" autoComplete="email" autoFocus />
+              </FormControl>
 
-          </form>
-        </Paper>
-      </main>
-    </React.Fragment>
-  );
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Senha</InputLabel>
+                <Input
+                  name="password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+              </FormControl>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              <Grid container spacing={24}>
+
+                <Grid item xs={12} sm={6}>
+                  <Link href='/register'><a>Register now</a></Link>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <Link href='/forgotPass'><a >Forgot Password</a></Link>
+                </Grid>
+                
+              </Grid>
+
+            </form>
+          </Paper>
+        </main>
+      </React.Fragment>
+    );
+  };
 }
 
 SignIn.propTypes = {
@@ -105,3 +126,6 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
+
+
+            
