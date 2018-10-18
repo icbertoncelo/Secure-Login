@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Link from 'next/link';
 
 const styles = theme => ({
   layout: {
@@ -137,20 +138,22 @@ class Register extends React.Component {
 
 				    <React.Fragment>
               <div className={classes.buttons}>
-                  <Button 
+             		<Link href='/'>
+                	<Button 
                   	variant="contained"
 	                  color="primary"
 	                  className={classes.button}
 	                 >
                     Cancelar
                   </Button>
-	                <Button
-	                  variant="contained"
-	                  color="primary"
-	                  className={classes.button}
-	                 >
-	                	Salvar
-                	</Button>
+                </Link>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                 >
+                	Salvar
+              </Button>
               </div>
             </React.Fragment>
 

@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
@@ -13,13 +12,10 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Link from 'next/link'; 
-
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import Grid from '@material-ui/core/Grid';
-
 
 const styles = theme => ({
   layout: {
@@ -110,7 +106,7 @@ class SignIn extends React.Component {
                 <Grid item xs={12} sm={6}>
                   <Link href='/forgotPass'><a >Forgot Password</a></Link>
                 </Grid>
-                
+
               </Grid>
 
             </form>
