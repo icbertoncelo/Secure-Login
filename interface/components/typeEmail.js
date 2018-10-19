@@ -1,23 +1,48 @@
 import React from 'react';
-import PropTypes from 'prop-types'
-import Link from 'next/link'
+import PropTypes from 'prop-types';
+import withStyles from '@material-ui/core/styles/withStyles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
-class ForgotPasswordForm extends React.Component {
+const styles = theme => ({
+  layout: {
+    width: 'auto',
+  },
+});
+
+class TypeEmail extends React.Component {
 
 	render () {
 
+		const { classes } = this.props;
+
 		return (
 
-			<Link href="/"><a>home</a></Link>
+			<React.Fragment>
+        <CssBaseline />
+        <main className={classes.layout}>
+            <React.Fragment>				      
+			        <Grid>
+			          <TextField
+			            required
+			            id="email"
+			            name="email"
+			            label="Email"
+			            fullWidth
+			            autoComplete="email"
+			          />
+			        </Grid>
+				    </React.Fragment>
+        </main>
+      </React.Fragment>
 
 		);
 	}
 }
 
-/*ForgotPasswordForm.PropTypes ={
+TypeEmail.PropTypes ={
 	classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ForgotPasswordForm);*/
-
-export default ForgotPasswordForm;
+export default withStyles(styles)(TypeEmail);

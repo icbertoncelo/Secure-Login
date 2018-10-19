@@ -56,16 +56,15 @@ const steps = ['Digitar email', 'Token enviado', 'Trocar senha'];
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <ForgotPasswordForm/>;
+      return <TypeEmail/>;
     case 1:
       return (
       	<Typography variant="h6" gutterBottom>
         	Token de confirmação enviado para o email requisitado
         </Typography>
-      ) 
-  	
+      )  	
     case 2:
-      return <TypeEmail/>;
+      return <ForgotPasswordForm/>;
     default:
       throw new Error('Unknown step');
   }
@@ -124,7 +123,7 @@ class ForgotPassword extends React.Component {
               {activeStep === steps.length ? (
                 <React.Fragment>
 
-                  <Typography variant="h5" gutterBottom>
+                  <Typography variant="h6" gutterBottom>
                     Senha alterada com sucesso!! <Link href="/"><a>home</a></Link>
                   </Typography>
 
