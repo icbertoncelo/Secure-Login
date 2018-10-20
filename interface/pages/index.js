@@ -16,6 +16,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
 
 const styles = theme => ({
   layout: {
@@ -53,13 +54,44 @@ class SignIn extends React.Component {
 
   constructor (){
     super ();
-    this.state = {  
 
+    this.state = { 
+      email: '',
+      password: ''
     };
+
+    this.accessLogin  = this.accessLogin.bind(this);
+    this.changeData   = this.changeData.bind(this);
   }
  
-  accessLogin () {
-    console.log("Login");
+  accessLogin (e) {
+  e.preventDefault();
+
+    const newAccess = {
+        email: this.state.email,
+        password: this.state.password
+    };
+
+    axios.post('http://localhost:7000/auth/authenticate', newAccess)
+        .then(response => {
+            alert("Login Efetuado com sucesso");
+            console.log(response.data);
+    });
+
+    //cleaning the states
+    this.setState({
+      email: '',
+      password: ''
+    });
+  }
+
+  changeData(e){
+    const { id, value } = e.target;
+
+    this.setState({
+      [id]: value
+    });
+
   }
   
   render () {
@@ -84,16 +116,21 @@ class SignIn extends React.Component {
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email</InputLabel>
-                <Input id="email" name="email" autoComplete="email" autoFocus />
+                <Input 
+                  id="email" 
+                  autoFocus 
+                  onChange={this.changeData}
+                  value={this.state.email}
+                />
               </FormControl>
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="password">Senha</InputLabel>
                 <Input
-                  name="password"
-                  type="password"
                   id="password"
-                  autoComplete="current-password"
+                  type="password"
+                  onChange={this.changeData}
+                  value={this.state.password}
                 />
               </FormControl>
 

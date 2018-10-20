@@ -49,7 +49,7 @@ class Register extends React.Component {
 
 	constructor(){
 		super();
-		this.state={
+		this.state = {
 			//Register From
 			name: '',
 			lastName: '',
@@ -61,9 +61,7 @@ class Register extends React.Component {
 		};
 
 		this.registerUser 	= this.registerUser.bind(this);
-		this.changeRegister = this.changeRegister.bind(this);
-		this.registerOK			= this.registerOK.bind(this);
-	}
+		this.changeRegister = this.changeRegister.bind(this);	}
 
 	//user register function
 	registerUser(e) {
@@ -86,7 +84,7 @@ class Register extends React.Component {
     	
 		    axios.post('http://localhost:7000/auth/register', newUser)
 		        .then(response => {
-		            this.registerOK();
+		            alert('Cadatro efetuado com sucesso');
 		            console.log(response.data);
 		    });
 			} else alert("Senhas não conferem. Por favor, verifique!"); 
@@ -103,11 +101,6 @@ class Register extends React.Component {
 			password: '',
 			confPassword: ''
 	  });
-	}
-
-	registerOK() {
-
-		alert('Cadatro efetuado com sucesso');
 	}
 
 	//capture the values that was typed

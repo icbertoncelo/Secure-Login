@@ -13,6 +13,23 @@ const styles = theme => ({
 
 class TypeEmail extends React.Component {
 
+	constructor() {
+		super();
+		this.state = {
+			email:''
+		}
+
+		this.changeEmail = this.changeEmail.bind(this);
+	}
+
+	changeEmail(e) {
+		const { id, value } = e.target;
+
+		this.setState({
+			[id]: value
+		});
+	}
+
 	render () {
 
 		const { classes } = this.props;
@@ -27,10 +44,9 @@ class TypeEmail extends React.Component {
 			          <TextField
 			            required
 			            id="email"
-			            name="email"
 			            label="Email"
 			            fullWidth
-			            autoComplete="email"
+			            onChange={this.changeEmail}
 			          />
 			        </Grid>
 				    </React.Fragment>

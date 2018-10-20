@@ -78,22 +78,28 @@ class ForgotPassword extends React.Component {
       activeStep: 0,
     };
 
-    
+
+    this.nextStep     = this.nextStep.bind(this);
+    this.previousStep = this.previousStep.bind(this);
+    this.resetSteps   = this.resetSteps.bind(this);
   }
 
-  nextStep = () => {
+  nextStep() {
+
+    // verify if the user exists and if the field is empty
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
+    // auth/forgotpassword
   };
 
-  previousStep = () => {
+  previousStep() {
     this.setState(state => ({
       activeStep: state.activeStep - 1,
     }));
   };
 
-  resetSteps = () => {
+  resetSteps() {
     this.setState({
       activeStep: 0,
     });
@@ -129,7 +135,7 @@ class ForgotPassword extends React.Component {
                 <React.Fragment>
 
                   <Typography variant="h6" gutterBottom>
-                    Senha alterada com sucesso!! <Link href="/"><a>home</a></Link>
+                    Senha alterada com sucesso!! <Link href="/"><a>Home</a></Link>
                   </Typography>
 
                 </React.Fragment>
@@ -137,18 +143,27 @@ class ForgotPassword extends React.Component {
                 <React.Fragment>
                   {getStepContent(activeStep)}
                   <div className={classes.buttons}>
+                    {activeStep >= 0 && (
+                      <Link href="/">
+                        <Button className={classes.button}> 
+                          Home
+                        </Button>
+                      </Link>
+                    )}  
+
                     {activeStep !== 0 && (
                       <Button onClick={this.previousStep} className={classes.button}>
-                        Back
+                        Voltar
                       </Button>
-                    )}
+                    )}                   
+
                     <Button
                       variant="contained"
                       color="primary"
                       onClick={this.nextStep}
                       className={classes.button}
                     >
-                      {activeStep === steps.length - 1 ? 'Concluir' : 'Next'}
+                      {activeStep === steps.length - 1 ? 'Concluir' : 'Avançar'}
                     </Button>
                   </div>
                 </React.Fragment>
