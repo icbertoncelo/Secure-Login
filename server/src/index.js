@@ -10,3 +10,4 @@ app.use(bodyParser.urlencoded({ extended: false })); //url parameters
 require('./app/controllers/index')(app);
 
 app.listen(7000);
+console.log("Server OK");

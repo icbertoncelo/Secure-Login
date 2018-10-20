@@ -72,9 +72,14 @@ function getStepContent(step) {
 
 class ForgotPassword extends React.Component {
 
-	state = {
-    activeStep: 0,
-  };
+	constructor (){
+    super ();
+    this.state = {  
+      activeStep: 0,
+    };
+
+    
+  }
 
   nextStep = () => {
     this.setState(state => ({

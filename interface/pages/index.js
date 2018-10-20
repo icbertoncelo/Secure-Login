@@ -51,7 +51,16 @@ const styles = theme => ({
 
 class SignIn extends React.Component {
 
-  state = {  };
+  constructor (){
+    super ();
+    this.state = {  
+
+    };
+  }
+ 
+  accessLogin () {
+    console.log("Login");
+  }
   
   render () {
 
@@ -71,7 +80,7 @@ class SignIn extends React.Component {
               Login
             </Typography>
 
-            <form className={classes.form}>
+            <form className={classes.form} >
 
               <FormControl margin="normal" required fullWidth>
                 <InputLabel htmlFor="email">Email</InputLabel>
@@ -94,6 +103,7 @@ class SignIn extends React.Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={this.accessLogin}
               >
                 Sign In
               </Button>

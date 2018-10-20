@@ -5,13 +5,15 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "^3.0.1",
+    "axios": "^0.18.0",
     "isomorphic-fetch": "^2.2.1",
     "jss": "latest",
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-jss": "latest"
+    "react-jss": "latest",
+    "react-recaptcha": "^2.3.10"
   },
   "scripts": {
     "dev": "next",

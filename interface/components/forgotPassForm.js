@@ -36,10 +36,8 @@ class ForgotPasswordForm extends React.Component {
 				          <TextField
 				          	required
 				            id="email"
-				            name="email"
 				            label="Email"
 				            fullWidth
-				            autoComplete="email"
 				          />
 				        </Grid>
 
@@ -47,17 +45,14 @@ class ForgotPasswordForm extends React.Component {
 				          <TextField
 				            required
 				            id="token"
-				            name="token"
 				            label="Token de confirmação"
 				            fullWidth
-				            autoComplete="token"
 				          />
 				        </Grid>
 				        <Grid item xs={12}>
 				          <TextField
 				          	required
 				            id="newpass"
-				            name="newpass"
 				            type="password"
 				            label="Nova senha"
 				            fullWidth
@@ -67,7 +62,6 @@ class ForgotPasswordForm extends React.Component {
 				          <TextField
 				          	required
 				            id="confnewpass"
-				            name="confnewpass"
 				            type="password"
 				            label="Confirmar Senha"
 				            fullWidth
