@@ -87,20 +87,22 @@ class Register extends React.Component {
 		            alert('Cadatro efetuado com sucesso');
 		            console.log(response.data);
 		    });
+
+		    //cleaning the states
+			  this.setState({
+			  	name: '',
+					lastName: '',
+					birthDate: '',
+					phoneNumber: '',
+					email: '',
+					password: '',
+					confPassword: ''
+			  });
+			  
 			} else alert("Senhas não conferem. Por favor, verifique!"); 
 
     } else alert("Por favor, preencha Todos os campos!");
-
-  	//cleaning the states
-	  this.setState({
-	  	name: '',
-			lastName: '',
-			birthDate: '',
-			phoneNumber: '',
-			email: '',
-			password: '',
-			confPassword: ''
-	  });
+ 	
 	}
 
 	//capture the values that was typed

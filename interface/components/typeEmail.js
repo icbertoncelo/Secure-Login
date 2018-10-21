@@ -13,8 +13,8 @@ const styles = theme => ({
 
 class TypeEmail extends React.Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			email:''
 		}

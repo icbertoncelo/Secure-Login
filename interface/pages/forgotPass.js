@@ -72,25 +72,46 @@ function getStepContent(step) {
 
 class ForgotPassword extends React.Component {
 
-	constructor (){
-    super ();
+	constructor (props){
+    super (props);
     this.state = {  
       activeStep: 0,
     };
 
-
     this.nextStep     = this.nextStep.bind(this);
     this.previousStep = this.previousStep.bind(this);
     this.resetSteps   = this.resetSteps.bind(this);
+    this.sendemail    = this.sendemail.bind(this);
+    this.resetPass    = this.resetPass.bind(this);
   }
 
-  nextStep() {
+  sendemail() {
 
-    // verify if the user exists and if the field is empty
+    console.log('Email Sended');
+
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
-    // auth/forgotpassword
+
+    // auth/forgot_password
+  };
+
+  resetPass() {
+
+    console.log('Password reseted');
+
+    this.setState(state => ({
+      activeStep: state.activeStep + 1,
+    }));
+
+    // auth/reset_password
+  };
+
+  nextStep() {
+
+    this.setState(state => ({
+      activeStep: state.activeStep + 1,
+    }));
   };
 
   previousStep() {
@@ -143,6 +164,7 @@ class ForgotPassword extends React.Component {
                 <React.Fragment>
                   {getStepContent(activeStep)}
                   <div className={classes.buttons}>
+
                     {activeStep >= 0 && (
                       <Link href="/">
                         <Button className={classes.button}> 
@@ -155,16 +177,41 @@ class ForgotPassword extends React.Component {
                       <Button onClick={this.previousStep} className={classes.button}>
                         Voltar
                       </Button>
-                    )}                   
+                    )}
 
-                    <Button
+                    {activeStep === 0 && (
+                      <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.sendemail}
+                      className={classes.button}
+                    >
+                    {activeStep === steps.length - 1 ? 'Concluir' : 'Avançar'}
+                    </Button>
+                    )}                   
+                    
+                    {activeStep !== 0 && (
+                      <Button
                       variant="contained"
                       color="primary"
                       onClick={this.nextStep}
                       className={classes.button}
                     >
-                      {activeStep === steps.length - 1 ? 'Concluir' : 'Avançar'}
+                    {activeStep === steps.length - 1 ? 'Concluir' : 'Avançar'}
                     </Button>
+                    )} 
+
+                    {activeStep === steps.length - 1 && (
+                      <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.resetPass}
+                      className={classes.button}
+                    >
+                    {activeStep === steps.length - 1 ? 'Concluir' : 'Avançar'}
+                    </Button>
+                    )} 
+
                   </div>
                 </React.Fragment>
               )}
