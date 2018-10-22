@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 
 const styles = theme => ({
-  layout: {
+  layoutPassForm: {
     width: 'auto',
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
@@ -24,7 +24,7 @@ class ForgotPasswordForm extends React.Component {
 		return (
 			<React.Fragment>
         <CssBaseline />
-        <main className={classes.layout}>
+        <main className={classes.layoutPassForm}>
             <Typography component="h1" variant="h6" align="center">
               Utilize o token de confirmação recebido
             </Typography>

@@ -10,9 +10,12 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ForgotPasswordForm from '../components/forgotPassForm';
-import TypeEmail from '../components/typeEmail';
+//import ForgotPasswordForm from '../components/forgotPassForm';
+//import TypeEmail from '../components/typeEmail';
 import Link from 'next/link';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
 
 const styles = theme => ({
   appBar: {
@@ -48,92 +51,232 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit * 3,
     marginLeft: theme.spacing.unit,
-  },
+  }
 });
 
 const steps = ['Digitar email', 'Token enviado', 'Trocar senha'];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <TypeEmail/>;
-    case 1:
-      return (
-      	<Typography variant="h6" gutterBottom>
-        	Token de confirmação enviado para o email requisitado
-        </Typography>
-      )  	
-    case 2:
-      return <ForgotPasswordForm/>;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
 class ForgotPassword extends React.Component {
 
-	constructor (props){
+  constructor (props){
+
     super (props);
     this.state = {  
       activeStep: 0,
+      firstEmail: '',
+      secondEmail: '',
+      token: '',
+      newpass: '',
+      confNewPass: ''
     };
 
-    this.nextStep     = this.nextStep.bind(this);
-    this.previousStep = this.previousStep.bind(this);
-    this.resetSteps   = this.resetSteps.bind(this);
-    this.sendemail    = this.sendemail.bind(this);
-    this.resetPass    = this.resetPass.bind(this);
+    this.nextStep       = this.nextStep.bind(this);
+    this.previousStep   = this.previousStep.bind(this);
+    this.sendEmail      = this.sendEmail.bind(this);
+    this.resetPass      = this.resetPass.bind(this);
+    this.getStepContent = this.getStepContent.bind(this);
+    this.changeEmail    = this.changeEmail.bind(this);
+    this.changePassForm = this.changePassForm.bind(this);
   }
 
-  sendemail() {
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return (
 
-    console.log('Email Sended');
+          <React.Fragment>
+            <CssBaseline />
+            <main width='auto'>
+                <React.Fragment>              
+                  <Grid>
+                    <TextField
+                      required
+                      id="firstEmail"
+                      label="Email"
+                      fullWidth
+                      onChange={this.changeEmail}
+                    />
+                  </Grid>
+                </React.Fragment>
+            </main>
+          </React.Fragment>
+        );
+      case 1:
+        return (
+          <Typography variant="h6" gutterBottom>
+            Token de confirmação enviado para o email requisitado
+          </Typography>
+        )   
+      case 2:
+        return (
 
-    this.setState(state => ({
-      activeStep: state.activeStep + 1,
-    }));
+          <React.Fragment>
+            <CssBaseline />
+            <main width= 'auto'>
+              <Typography component="h1" variant="h6" align="center">
+                Utilize o token de confirmação recebido
+              </Typography>
 
-    // auth/forgot_password
+              <React.Fragment>
+                <Grid container spacing={24}>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      id="secondEmail"
+                      label="Email"
+                      fullWidth
+                      onChange={this.changePassForm}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      id="token"
+                      label="Token de confirmação"
+                      fullWidth
+                      onChange={this.changePassForm}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      id="newpass"
+                      type="password"
+                      label="Nova senha"
+                      fullWidth
+                      onChange={this.changePassForm}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      id="confNewPass"
+                      type="password"
+                      label="Confirmar Senha"
+                      fullWidth
+                      onChange={this.changePassForm}
+                    />
+                  </Grid>
+
+                </Grid>
+              </React.Fragment>
+            </main>
+          </React.Fragment>
+
+        );
+
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
+  // fetch the email element that was type
+  changeEmail(e) {
+    const { id, value } = e.target;
+
+    this.setState({
+      [id]: value
+    });
+  }
+
+  // fetch the reset form elements that was type
+  changePassForm(e) {
+    const { id, value } = e.target;;
+
+    this.setState({
+      [id]: value
+    });
+  }
+
+  // funtion to access the forgot password route
+  sendEmail(e) {
+    e.preventDefault();
+
+    const reqEmail = {
+        email: this.state.firstEmail
+    };
+
+    if( reqEmail.email !== '' && reqEmail.email.indexOf('@') > -1){
+
+      axios.post('http://localhost:7000/auth/forgot_password', reqEmail)
+          .then(response => {
+              alert("Token enviado com sucesso");
+              console.log(response.data);
+      });
+
+      this.setState(state => ({
+        activeStep: state.activeStep + 1,
+      }));
+
+    } else alert("Verifique o campo email.");
+
   };
 
-  resetPass() {
+  // funtion to access the reset password route
+  resetPass(e) {
+    e.preventDefault();
 
-    console.log('Password reseted');
+    const dataResetPass = {
+        email: this.state.secondEmail,
+        token: this.state.token,
+        password: this.state.newpass
+    };
 
-    this.setState(state => ({
-      activeStep: state.activeStep + 1,
-    }));
+    if(dataResetPass.email && dataResetPass.token && dataResetPass.password 
+      && this.state.confNewPass !== ''){
 
-    // auth/reset_password
+      if(dataResetPass.email === this.state.firstEmail) {
+
+        if(dataResetPass.password === this.state.confNewPass) {
+
+          axios.post('http://localhost:7000/auth/reset_password', dataResetPass)
+              .then(response => {
+                  alert("Senha alterada com sucesso");
+                  console.log(response.data);
+          });
+
+          //cleaning the states
+          this.setState({
+            firstEmail: '',
+            secondEmail: '',
+            token: '',
+            password: ''
+          });
+
+          this.setState(state => ({
+            activeStep: state.activeStep + 1,
+          }));
+
+        } else alert("Senhas não conferem. Por favor, verifique."); 
+
+      } else alert("Emails não conferem. Por favor, verifique."); 
+
+    } else alert('Por favor, preencha todos os campos.');
+
   };
 
   nextStep() {
-
     this.setState(state => ({
       activeStep: state.activeStep + 1,
     }));
   };
 
-  previousStep() {
+  previousStep() {    
     this.setState(state => ({
       activeStep: state.activeStep - 1,
     }));
   };
 
-  resetSteps() {
-    this.setState({
-      activeStep: 0,
-    });
-  };
+  render () {
 
-	render () {
-
-		const { classes } = this.props;
+    const { classes } = this.props;
     const { activeStep } = this.state;
 
-		return (
+    return (
 
-			<React.Fragment>
+      <React.Fragment>
         <CssBaseline />
 
         <main className={classes.layout}>
@@ -162,7 +305,7 @@ class ForgotPassword extends React.Component {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  {getStepContent(activeStep)}
+                  {this.getStepContent(activeStep)}
                   <div className={classes.buttons}>
 
                     {activeStep >= 0 && (
@@ -183,14 +326,14 @@ class ForgotPassword extends React.Component {
                       <Button
                       variant="contained"
                       color="primary"
-                      onClick={this.sendemail}
+                      onClick={this.sendEmail}
                       className={classes.button}
                     >
                     {activeStep === steps.length - 1 ? 'Concluir' : 'Avançar'}
                     </Button>
                     )}                   
                     
-                    {activeStep !== 0 && (
+                    {activeStep === steps.length - 2 && (
                       <Button
                       variant="contained"
                       color="primary"
@@ -221,13 +364,13 @@ class ForgotPassword extends React.Component {
         </main>
       </React.Fragment>
 
-			
-		);
-	}
+      
+    );
+  }
 }
 
 ForgotPassword.PropTypes ={
-	classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(ForgotPassword);

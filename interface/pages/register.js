@@ -76,32 +76,46 @@ class Register extends React.Component {
         password: this.state.password
     };
   	
+  	// verifying if exists empty fields
     if (this.state.name && this.state.lastName && this.state.birthDate 
     		&& this.state.phoneNumber && this.state.email 
     		&& this.state.password != '') { //verify if all fields was fill --GAMBIARRA--
 
-    	if(this.state.password == this.state.confPassword) {	//verify the password 
-    	
-		    axios.post('http://localhost:7000/auth/register', newUser)
-		        .then(response => {
-		            alert('Cadatro efetuado com sucesso');
-		            console.log(response.data);
-		    });
+    	// verifying if the email contains "@"
+    	if (newUser.email.indexOf('@') > -1) {
 
-		    //cleaning the states
-			  this.setState({
-			  	name: '',
-					lastName: '',
-					birthDate: '',
-					phoneNumber: '',
-					email: '',
-					password: '',
-					confPassword: ''
-			  });
-			  
-			} else alert("Senhas não conferem. Por favor, verifique!"); 
+    	// verifying the password
+	    	if(newUser.password.match(/[a-zA-Z]/) 
+	    		&& newUser.password.match(/[!@#$%*()_+^&{}}:;?.]/) 
+	    		&& newUser.password.match(/[0-9]/) !== null && newUser.password.length >= 6) {
+	    	
+	    		// verifying the password iguality
+		    	if(this.state.password == this.state.confPassword) {	//verify the password 
+		    	
+				    axios.post('http://localhost:7000/auth/register', newUser)
+				        .then(response => {
+				            alert('Cadatro efetuado com sucesso');
+				            console.log(response.data);
+				    });
 
-    } else alert("Por favor, preencha Todos os campos!");
+				    //cleaning the states
+					  this.setState({
+					  	name: '',
+							lastName: '',
+							birthDate: '',
+							phoneNumber: '',
+							email: '',
+							password: '',
+							confPassword: ''
+					  });
+				  
+					} else alert("Senhas não conferem. Por favor, verifique.")
+
+				}	else alert("Sua senha deve conter 6 caracteres, entre eles letra, número e caracter especial")
+
+			} else alert("Seu email deve ser do formato fulano@xxx")
+
+    } else alert("Por favor, preencha Todos os campos.");
  	
 	}
 

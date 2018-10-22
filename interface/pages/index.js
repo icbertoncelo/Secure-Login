@@ -72,17 +72,20 @@ class SignIn extends React.Component {
         password: this.state.password
     };
 
-    axios.post('http://localhost:7000/auth/authenticate', newAccess)
-        .then(response => {
-            alert("Login Efetuado com sucesso");
-            console.log(response.data);
-    });
+    if (newAccess.email && newAccess.password !== ''){
+      axios.post('http://localhost:7000/auth/authenticate', newAccess)
+          .then(response => {
+              alert("Login Efetuado com sucesso");
+              console.log(response.data);
+      });
 
-    //cleaning the states
-    this.setState({
-      email: '',
-      password: ''
-    });
+      //cleaning the states
+      this.setState({
+        email: '',
+        password: ''
+      });
+    } else alert("Por favor, preencha todos os campos")
+
   }
 
   changeData(e){
