@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Link from 'next/link'; 
+import Router from 'next/router';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -57,7 +58,9 @@ class SignIn extends React.Component {
 
     this.state = { 
       email: '',
-      password: ''
+      password: '',
+
+      controller: ''
     };
 
     this.accessLogin  = this.accessLogin.bind(this);
@@ -91,6 +94,7 @@ class SignIn extends React.Component {
                         email: '',
                         password: ''
                       });
+                      Router.push('/alunoPage');
                     } else  
                         if(newAccess.email.indexOf('@prof') > -1){
                           alert("Login Efetuado com sucesso no server Professor"); 
@@ -98,6 +102,7 @@ class SignIn extends React.Component {
                             email: '',
                             password: ''
                           });
+                          Router.push('/profPage');
                         } else
                             if(newAccess.email.indexOf('@adm') > -1){
                               alert("Login Efetuado com sucesso no server Adm"); 
@@ -105,6 +110,7 @@ class SignIn extends React.Component {
                                 email: '',
                                 password: ''
                               });
+                              Router.push('/admPage');
                             }                       
                   
       });
