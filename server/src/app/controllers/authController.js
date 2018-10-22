@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
 	const { email } = req.body;
 	try {
 		if(await User.findOne({ email }))
-			return res.status(400).send({ error: 'User already exists' })
+			return res.jsonp({validEmail : false})//res.status(400).send({ error: 'User already exists' })
 
 		const user = await User.create(req.body); // passing parameters that users have inserted
 
@@ -47,11 +47,11 @@ router.post('/authenticate', async (req, res) =>{
 	const user = await User.findOne({ email }).select('+password');
 
 	if(!user)
-		return res.status(400).send({ error: 'User not found' });
+		return res.jsonp({validEmail : false})//res.status(400).send({ error: 'User not found' });
 
 	//checking password
 	if(!await bcrypt.compare(password, user.password))
-		return res.status(400).send({ error: 'Invalid password' });
+		return res.jsonp({validPass : false})//res.status(400).send({ error: 'Invalid password' });
 
 	user.password = undefined;
 
@@ -72,7 +72,7 @@ router.post('/forgot_password', async (req, res) => {
 		const user = await User.findOne({ email });
 
 		if(!user)
-			return res.status(400).send({ error: 'User not found' });
+			return res.jsonp({validForgEmail : false})//res.status(400).send({ error: 'User not found' });
 
 		//creating token to authorize the correct user to recovery the password
 		const token = crypto.randomBytes(20).toString('hex'); //token in hex
@@ -123,15 +123,15 @@ router.post ('/reset_password', async (req, res) => {
 			.select('+passwordResetToken passwordResetExpires');
 
 		if(!user)
-			return res.status(400).send({ error: 'User not found' });
+			return res.jsonp({validResEmail : false})//res.status(400).send({ error: 'User not found' });
 
 		if(token !== user.passwordResetToken)
-			return res.status(400).send({ error: 'Token invalid' });
+			return res.jsonp({validToken : false})//res.status(400).send({ error: 'Token invalid' });
 
 		const now = new Date();
 
 		if(now > user.passwordResetExpires)
-			return res.status(400).send({ error: 'Token expired! Generate a new one' });	
+			return res.jsonp({validExpToken : false})//res.status(400).send({ error: 'Token expired! Generate a new one' });	
 
 		user.password = password;
 

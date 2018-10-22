@@ -74,16 +74,41 @@ class SignIn extends React.Component {
 
     if (newAccess.email && newAccess.password !== ''){
       axios.post('http://localhost:7000/auth/authenticate', newAccess)
-          .then(response => {
-              alert("Login Efetuado com sucesso");
-              console.log(response.data);
+          .then(response => {         
+              if(response.data['validEmail'] == false){
+                alert("Usuário não encontrado");
+              } else 
+                  if(response.data['validPass'] == false){
+                    alert("Senha incorreta");
+                    this.setState({
+                      password: ''
+                    });
+                  } 
+                  else 
+                    if(newAccess.email.indexOf('@aluno') > -1){
+                      alert("Login Efetuado com sucesso no server Aluno"); 
+                      this.setState({
+                        email: '',
+                        password: ''
+                      });
+                    } else  
+                        if(newAccess.email.indexOf('@prof') > -1){
+                          alert("Login Efetuado com sucesso no server Professor"); 
+                          this.setState({
+                            email: '',
+                            password: ''
+                          });
+                        } else
+                            if(newAccess.email.indexOf('@adm') > -1){
+                              alert("Login Efetuado com sucesso no server Adm"); 
+                              this.setState({
+                                email: '',
+                                password: ''
+                              });
+                            }                       
+                  
       });
 
-      //cleaning the states
-      this.setState({
-        email: '',
-        password: ''
-      });
     } else alert("Por favor, preencha todos os campos")
 
   }

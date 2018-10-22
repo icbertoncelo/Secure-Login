@@ -67,7 +67,9 @@ class ForgotPassword extends React.Component {
       secondEmail: '',
       token: '',
       newpass: '',
-      confNewPass: ''
+      confNewPass: '',
+
+      controller: false
     };
 
     this.nextStep       = this.nextStep.bind(this);
@@ -202,13 +204,20 @@ class ForgotPassword extends React.Component {
 
       axios.post('http://localhost:7000/auth/forgot_password', reqEmail)
           .then(response => {
-              alert("Token enviado com sucesso");
-              console.log(response.data);
+              if(response.data['validForgEmail'] == false){
+                alert("Usuário nao encontrado")
+              } else {
+                  return  this.setState(state => ({
+                            activeStep: state.activeStep + 1,
+                          })); 
+                }
       });
 
-      this.setState(state => ({
-        activeStep: state.activeStep + 1,
-      }));
+      //console.log(this.state.activeStep)
+
+      //if (this.state.controller == true){
+        
+     // }
 
     } else alert("Verifique o campo email.");
 
@@ -229,27 +238,36 @@ class ForgotPassword extends React.Component {
 
       if(dataResetPass.email === this.state.firstEmail) {
 
-        if(dataResetPass.password === this.state.confNewPass) {
+        if(dataResetPass.password.match(/[a-zA-Z]/) 
+          && dataResetPass.password.match(/[!@#$%*()_+^&{}}:;?.]/) 
+          && dataResetPass.password.match(/[0-9]/) !== null && dataResetPass.password.length >= 6) {
 
-          axios.post('http://localhost:7000/auth/reset_password', dataResetPass)
-              .then(response => {
-                  alert("Senha alterada com sucesso");
-                  console.log(response.data);
-          });
+          if(dataResetPass.password === this.state.confNewPass) {
 
-          //cleaning the states
-          this.setState({
-            firstEmail: '',
-            secondEmail: '',
-            token: '',
-            password: ''
-          });
+            axios.post('http://localhost:7000/auth/reset_password', dataResetPass)
+                .then(response => {
+                    if (response.data['validToken'] == false || response.data['validExpToken'] == false ){
+                      alert("Token Inválido");
+                    }
+                    else{
+                      alert("Senha alterada com sucesso");
 
-          this.setState(state => ({
-            activeStep: state.activeStep + 1,
-          }));
+                      this.setState({
+                        firstEmail: '',
+                        secondEmail: '',
+                        token: '',
+                        password: ''
+                      });
 
-        } else alert("Senhas não conferem. Por favor, verifique."); 
+                      this.setState(state => ({
+                        activeStep: state.activeStep + 1,
+                      }));
+                    }
+            });
+
+          } else alert("Senhas não conferem. Por favor, verifique."); 
+
+        } else alert("Sua senha deve conter 6 caracteres, entre eles letra, número e caracter especial")
 
       } else alert("Emails não conferem. Por favor, verifique."); 
 

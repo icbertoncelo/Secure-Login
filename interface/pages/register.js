@@ -94,21 +94,22 @@ class Register extends React.Component {
 		    	
 				    axios.post('http://localhost:7000/auth/register', newUser)
 				        .then(response => {
-				            alert('Cadatro efetuado com sucesso');
-				            console.log(response.data);
+				        		if (response.data['validEmail'] == false)
+				            	alert('erro de cadastro. Usuário ja existente');
+				            else {
+				            	alert('Cadatro efetuado com sucesso');
+				            	this.setState({
+										  	name: '',
+												lastName: '',
+												birthDate: '',
+												phoneNumber: '',
+												email: '',
+												password: '',
+												confPassword: ''
+										  });
+				            }
 				    });
 
-				    //cleaning the states
-					  this.setState({
-					  	name: '',
-							lastName: '',
-							birthDate: '',
-							phoneNumber: '',
-							email: '',
-							password: '',
-							confPassword: ''
-					  });
-				  
 					} else alert("Senhas não conferem. Por favor, verifique.")
 
 				}	else alert("Sua senha deve conter 6 caracteres, entre eles letra, número e caracter especial")
